@@ -1,0 +1,25 @@
+.start h1{
+    font-size: 3.5rem;
+}
+
+.start p {
+    margin-bottom: 2em;
+    color: #ECFA00;
+}
+
+button{
+    background-color: #1646a0;
+    color: #fff;
+    padding: 10px 45px;
+    border: 2px solid #fff;
+    border-radius: 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: .4s;
+}
+
+button:hover{
+    background-color: #0923AF;
+}
