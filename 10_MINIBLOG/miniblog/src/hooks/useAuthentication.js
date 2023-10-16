@@ -27,9 +27,9 @@ export const useAuthentication = () => {
   // register
   const createUser = async (data) => {
     checkIsIsCancelled();
-
-    setLoading(true);
+    setCancelled(true);
     setError(null);
+    setLoading(true);
 
     try {
       const { user } = await createUserWithEmailAndPassword(
@@ -82,13 +82,6 @@ export const useAuthentication = () => {
       console.log(typeof error.message);
       let systemErrorMessage;
 
-      /* if (error.message.includes("user-not-found")) {
-        systemErrorMessage = "Usuário não encontrado.";
-      } else if (error.message.includes("wrong-password")) {
-        systemErrorMessage = "Senha incorreta.";
-      } else {
-        systemErrorMessage = "Ocorreu um erro, por favor tenta mais tarde.";
-      } */
       if (error.message.includes("invalid-login-credentials")) {
         systemErrorMessage = "Dados não conferem";
       } else {
