@@ -70,9 +70,9 @@ const EditProfile = () => {
 
     await dispatch(updateProfile(formData));
 
-    /* setTimeout(() => {
+    setTimeout(() => {
       dispatch(resetMessage());
-    }, 2000); */
+    }, 2000);
   };
 
   const handleFile = (e) => {
