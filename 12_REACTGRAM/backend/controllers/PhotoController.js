@@ -161,7 +161,7 @@ const likePhoto = async (req, res) => {
   // Put user id in likes array
   photo.likes.push(reqUser._id);
 
-  photo.save();
+  await photo.save();
 
   res
     .status(200)
@@ -204,14 +204,6 @@ const commentPhoto = async (req, res) => {
 const searchPhotos = async (req, res) => {
   const { q } = req.query;
   const photos = await Photo.find({ title: new RegExp(q, "i") }).exec();
-
-  if (!photos.length) {
-    res
-      .status(404)
-      .json({ error: ["Sua pesquisa não retornou resultado."] });
-    return;
-  }
-
   res.status(200).json(photos);
 };
 

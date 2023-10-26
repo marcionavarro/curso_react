@@ -1,28 +1,32 @@
-import "./Home.css";
+import "./Search.css";
+
+// hooks
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
+import { useQuery } from "../../hooks/useQuery";
 
 // components
 import LikeContainer from "../../components/LikeContainer";
 import PhotoItem from "../../components/PhotoItem";
 import { Link } from "react-router-dom";
 
-// Hooks
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
+// redux
+import { searchPhotos, like } from "../../slices/photoSlice";
 
-// Redux
-import { getPhotos, like } from "../../slices/photoSlice";
+const Search = () => {
+  const query = useQuery();
+  const search = query.get("q");
 
-const Home = () => {
   const dispatch = useDispatch();
   const resetMessage = useResetComponentMessage(dispatch);
   const { user } = useSelector((state) => state.auth);
   const { photos, loading } = useSelector((state) => state.photo);
 
-  // Load all photos
+  // Load Photos
   useEffect(() => {
-    dispatch(getPhotos());
-  }, [dispatch]);
+    dispatch(searchPhotos(search));
+  }, [dispatch, query]);
 
   // Like a photo
   const handleLike = (photo) => {
@@ -30,13 +34,10 @@ const Home = () => {
     resetMessage();
   };
 
-  if (loading) {
-    return <p>Carregando...</p>;
-  }
-
   return (
-    <div id="home">
-      {photos && photos.length > 0 ? (
+    <div id="search">
+      <h2>Voçê está buscando por: {search}</h2>
+      {photos &&
         photos.map((photo) => (
           <div key={photo._id}>
             <PhotoItem photo={photo} />
@@ -45,15 +46,15 @@ const Home = () => {
               Ver mais
             </Link>
           </div>
-        ))
-      ) : (
+        ))}
+      {photos && photos.length === 0 && (
         <h2 className="no-photos">
-          Ainda não há fotos publicadas{" "}
-          <Link to={`/users/${user._id}`}>clique aqui</Link>
+          Ainda não há fotos publicadas
+          <Link to={`/users/${user._id}`}> clique aqui</Link>
         </h2>
       )}
     </div>
   );
 };
 
-export default Home;
+export default Search;
